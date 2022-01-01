@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "IvRain (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "IvRain (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
