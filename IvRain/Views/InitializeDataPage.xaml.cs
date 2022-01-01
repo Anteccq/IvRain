@@ -27,7 +27,7 @@ namespace IvRain.Views
         public InitializeDataPage()
         {
             this.InitializeComponent();
-            WindowUtil.ResizeMainWindow(600, 300);
+            WindowUtil.ResizeMainWindow(600, 200);
         }
     }
 }

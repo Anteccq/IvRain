@@ -20,12 +20,10 @@ namespace IvRain.ViewModels
             FirstPassword = new ReactiveProperty<string>("");
             SecondPassword = new ReactiveProperty<string>("");
             FirstPassword
-                .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length < 5 && x == SecondPassword.Value)
-                .Subscribe(_ => IsRegistrable.Value = true);
+                .Subscribe(x => SecondPassword.Value = x);
 
             SecondPassword
-                .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length < 5 && x == FirstPassword.Value)
-                .Subscribe(_ => IsRegistrable.Value = true);
+                .Subscribe(x => IsRegistrable.Value = !string.IsNullOrWhiteSpace(x) && x.Length > 5 && x == FirstPassword.Value);
         }
     }
 }

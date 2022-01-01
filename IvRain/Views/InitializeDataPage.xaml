@@ -14,10 +14,20 @@
     </Page.DataContext>
 
     <Grid>
-        <StackPanel>
-            <PasswordBox x:Name="FirstPasswordBox" Password="{Binding FirstPassword.Value}"/>
-            <PasswordBox x:Name="SecondPasswordBox" Password="{Binding SecondPassword.Value}"/>
-            <Button x:Name="RegisterButton" Content="Register" IsEnabled="{Binding IsRegistrable.Value}"/>
+        <StackPanel Orientation="Vertical"  Margin="50, 0">
+            <StackPanel.Resources>
+                <!--なぜ明示的な型指定が必要なのか(Controlではだめなのか)我々は以下略-->
+                <Thickness x:Key="ItemMargin">0,10</Thickness>
+                <Style TargetType="PasswordBox">
+                    <Setter Property="Margin" Value="{StaticResource ItemMargin}"/>
+                </Style>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="{StaticResource ItemMargin}"/>
+                </Style>
+            </StackPanel.Resources>
+            <PasswordBox x:Name="FirstPasswordBox" Password="{Binding FirstPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <PasswordBox x:Name="SecondPasswordBox" Password="{Binding SecondPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button HorizontalAlignment="Right" x:Name="RegisterButton" Content="Register" IsEnabled="{Binding IsRegistrable.Value}"/>
         </StackPanel>
     </Grid>
 </Page>
