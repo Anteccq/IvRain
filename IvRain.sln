@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IvRain", "IvRain\IvRain.csproj", "{14668D87-5DBB-4142-B227-3086D5B1E566}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IvRain.Tests", "IvRain.Tests\IvRain.Tests.csproj", "{6685CA62-280B-493D-B417-6CE0347B1CE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -25,6 +27,14 @@ Global
 		{14668D87-5DBB-4142-B227-3086D5B1E566}.Release|x86.ActiveCfg = Release|x86
 		{14668D87-5DBB-4142-B227-3086D5B1E566}.Release|x86.Build.0 = Release|x86
 		{14668D87-5DBB-4142-B227-3086D5B1E566}.Release|x86.Deploy.0 = Release|x86
+		{6685CA62-280B-493D-B417-6CE0347B1CE4}.Debug|x64.ActiveCfg = Debug|x64
+		{6685CA62-280B-493D-B417-6CE0347B1CE4}.Debug|x64.Build.0 = Debug|x64
+		{6685CA62-280B-493D-B417-6CE0347B1CE4}.Debug|x86.ActiveCfg = Debug|x86
+		{6685CA62-280B-493D-B417-6CE0347B1CE4}.Debug|x86.Build.0 = Debug|x86
+		{6685CA62-280B-493D-B417-6CE0347B1CE4}.Release|x64.ActiveCfg = Release|x64
+		{6685CA62-280B-493D-B417-6CE0347B1CE4}.Release|x64.Build.0 = Release|x64
+		{6685CA62-280B-493D-B417-6CE0347B1CE4}.Release|x86.ActiveCfg = Release|x86
+		{6685CA62-280B-493D-B417-6CE0347B1CE4}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
