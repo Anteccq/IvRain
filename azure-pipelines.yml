@@ -1,0 +1,30 @@
+jobs: 
+- job: 'Build_App'
+  pool:
+    vmImage: 'windows-latest'
+  variables: 
+    Solution: '**/*.sln'
+    buildPlatform: 'x64'
+    buildConfiguration: 'Release'
+  
+  steps:
+    - task: NuGetToolInstaller@1
+      displayName: 'Install NuGet'
+
+    - task: NuGetCommand@2
+      displayName: 'Restore Solution'
+      inputs:
+        restoreSolution: $(Solution)
+
+    - task: VSBuild@1
+      displayName: 'Build App'
+      inputs: 
+        solution: $(Solution)
+        platform: $(buildPlatform)
+        configuration: $(buildConfiguration)
+    - task: VSTest@2
+      displayName: 'Test'
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **/*.Tests.dll
