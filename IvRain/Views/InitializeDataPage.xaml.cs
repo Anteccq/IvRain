@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using IvRain.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -27,7 +28,7 @@ namespace IvRain.Views
         public InitializeDataPage()
         {
             this.InitializeComponent();
-            WindowUtil.ResizeMainWindow(600, 200);
+            WindowUtil.ResizeMainWindow(600, 230);
         }
     }
 }

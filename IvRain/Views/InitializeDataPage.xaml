@@ -6,9 +6,12 @@
     xmlns:vm="using:IvRain.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:IvRain.Views.Converter"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <converter:InverseValueConverter x:Key="Inverse"/>
+    </Page.Resources>
     <Page.DataContext>
         <vm:InitializeDataPageViewModel/>
     </Page.DataContext>
@@ -25,9 +28,11 @@
                     <Setter Property="Margin" Value="{StaticResource ItemMargin}"/>
                 </Style>
             </StackPanel.Resources>
+            <TextBlock Text="Password must be at least 5 characters long."/>
             <PasswordBox x:Name="FirstPasswordBox" Password="{Binding FirstPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <PasswordBox x:Name="SecondPasswordBox" Password="{Binding SecondPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button HorizontalAlignment="Right" x:Name="RegisterButton" Content="Register" IsEnabled="{Binding IsRegistrable.Value}"/>
+
+            <Button HorizontalAlignment="Right" x:Name="RegisterButton"  Content="Register" IsEnabled="{Binding IsRegistrable.Value}"/>
         </StackPanel>
     </Grid>
 </Page>
