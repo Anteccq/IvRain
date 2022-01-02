@@ -34,4 +34,4 @@ jobs:
       run: msbuild IvRain.Tests/IvRain.Tests.csproj -property:Configuration=Debug
 
     - name: Test
-      run: vstest.console.exe /Platform:x64 IvRain.Tests/bin/Debug/IvRain.Tests.dll
+      run: vstest.console.exe /Platform:x64 IvRain.Tests/bin/Debug/net6.0-windows10.0.19041.0/IvRain.Tests.dll
