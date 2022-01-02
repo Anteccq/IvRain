@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - release
+      - main
+    tags:
+      - "!*"
+    paths-ignore:
+      - "README.md"
+  pull_request:
+
+jobs: 
+  build: 
+    runs-on: windows-latest
+    steps: 
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: SetUp MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+    
+    - name: Restore Solution
+      run: msbuild IvRain.sln -t:restore
+    
+    - name: Build App
+      run: msbuild IvRain/IvRain.csproj -property:Configuration=Release
+
+    - name: Setup VSTest.console.exe
+      uses: darenm/Setup-VSTest@v1
+
+    - name: Test
+      run: vstest.console.exe /Platform:x64 IvRain.Tests/bin/Debug/IvRain.Tests.dll
