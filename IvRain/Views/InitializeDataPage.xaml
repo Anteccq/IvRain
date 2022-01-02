@@ -12,9 +12,6 @@
     <Page.Resources>
         <converter:InverseValueConverter x:Key="Inverse"/>
     </Page.Resources>
-    <Page.DataContext>
-        <vm:InitializeDataPageViewModel/>
-    </Page.DataContext>
 
     <Grid>
         <StackPanel Orientation="Vertical"  Margin="50, 0">
@@ -32,7 +29,7 @@
             <PasswordBox x:Name="FirstPasswordBox" Password="{Binding FirstPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <PasswordBox x:Name="SecondPasswordBox" Password="{Binding SecondPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Button HorizontalAlignment="Right" x:Name="RegisterButton"  Content="Register" IsEnabled="{Binding IsRegistrable.Value}"/>
+            <Button HorizontalAlignment="Right" x:Name="RegisterButton" Command="{Binding Register}"  Content="Register" IsEnabled="{Binding IsRegistrable.Value}"/>
         </StackPanel>
     </Grid>
 </Page>

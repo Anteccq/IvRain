@@ -9,8 +9,14 @@ namespace IvRain.Models.Storage;
 public class FileStorage : IStorage
 {
     private const string FileName = "Kusanagi";
-    private readonly string _filePath =
-        $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/Anteccq/IvRain/{FileName}";
+    private readonly string _directoryName;
+    private readonly string _filePath;
+
+    public FileStorage()
+    {
+        _directoryName = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/Anteccq/IvRain";
+        _filePath = $"{_directoryName}/{FileName}";
+    }
 
     public ValueTask<bool> IsExistDataAsync(CancellationToken cancellationToken)
         => ValueTask.FromResult(File.Exists(_filePath));
@@ -22,8 +28,17 @@ public class FileStorage : IStorage
         return message;
     }
 
+    public ValueTask DeleteAsync(CancellationToken cancellationToken)
+    {
+        File.Delete(_filePath);
+        return ValueTask.CompletedTask;
+    }
+
     public async ValueTask WriteAsync(EncryptedMessage message, CancellationToken cancellationToken)
     {
+        if (!Directory.Exists(_directoryName))
+            Directory.CreateDirectory(_directoryName);
+
         await using var fs = new FileStream(_filePath, FileMode.Create, FileAccess.Write);
         await MessagePackSerializer.SerializeAsync(fs, message, cancellationToken: cancellationToken);
     }
