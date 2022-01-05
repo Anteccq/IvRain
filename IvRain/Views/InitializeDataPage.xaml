@@ -7,10 +7,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converter="using:IvRain.Views.Converter"
+    xmlns:sys="using:System"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <converter:InverseValueConverter x:Key="Inverse"/>
+        <converter:RegistrationStatusToBoolConverter x:Key="StatusToBool"/>
     </Page.Resources>
 
     <Grid>
@@ -29,7 +31,18 @@
             <PasswordBox x:Name="FirstPasswordBox" Password="{Binding FirstPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <PasswordBox x:Name="SecondPasswordBox" Password="{Binding SecondPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Button HorizontalAlignment="Right" x:Name="RegisterButton" Command="{Binding Register}"  Content="Register" IsEnabled="{Binding IsRegistrable.Value}"/>
+
+            <Button HorizontalAlignment="Right" Padding="0"  x:Name="RegisterButton" Command="{Binding Register}" IsEnabled="{Binding RegistrationStatusProverProperty.Value, Converter={StaticResource StatusToBool}}">
+                <Grid Height="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Register" Margin="10,0" />
+                    <Rectangle Grid.Column="1"  x:Name="RegistrationStatusBar" Fill="Red"/>
+                </Grid>
+            </Button>
+
         </StackPanel>
     </Grid>
 </Page>

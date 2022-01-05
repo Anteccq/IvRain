@@ -13,11 +13,12 @@ namespace IvRain.ViewModels
 {
     public class InitializeDataPageViewModel
     {
-        public ReactiveProperty<bool> IsRegistrable { get; } = new(false);
         public ReactiveProperty<string> FirstPassword { get; }
         public ReactiveProperty<string> SecondPassword { get; }
-        public ReactiveProperty<bool> IsRegistered { get; }
 
+        public ReactiveProperty<RegistrationStatus> RegistrationStatusProverProperty { get; } =
+            new(RegistrationStatus.UnRegistrable);
+        private ReactiveProperty<bool> IsRegistrable { get; }
         public AsyncReactiveCommand Register { get; }
 
         public InitializeDataPageViewModel(IBlockService blockService)
@@ -26,20 +27,29 @@ namespace IvRain.ViewModels
             SecondPassword = new ReactiveProperty<string>("");
             FirstPassword
                 .Subscribe(x =>
-                    IsRegistrable.Value = !string.IsNullOrWhiteSpace(x) && x.Length > 5 && x == SecondPassword.Value);
+                    RegistrationStatusProverProperty.Value =
+                        !string.IsNullOrWhiteSpace(x) && x.Length > 5 && x == SecondPassword.Value
+                            ? RegistrationStatus.Registrable
+                            : RegistrationStatus.UnRegistrable);
 
             SecondPassword
                 .Subscribe(x =>
-                    IsRegistrable.Value = !string.IsNullOrWhiteSpace(x) && x.Length > 5 && x == FirstPassword.Value);
+                    RegistrationStatusProverProperty.Value =
+                        !string.IsNullOrWhiteSpace(x) && x.Length > 5 && x == FirstPassword.Value
+                            ? RegistrationStatus.Registrable
+                            : RegistrationStatus.UnRegistrable);
 
-            IsRegistered = new ReactiveProperty<bool>(false);
-            Register = new AsyncReactiveCommand();
+            IsRegistrable = new ReactiveProperty<bool>();
+            
+            RegistrationStatusProverProperty.Subscribe(x => IsRegistrable.Value = x == RegistrationStatus.Registrable);
+            
+            Register = new AsyncReactiveCommand(IsRegistrable);
             Register
                 .WithSubscribe(async _ =>
                 {
                     await blockService.SetBlocksAsync(FirstPassword.Value, new List<Block>(), CancellationToken.None);
                     await Task.Delay(500);
-                    IsRegistered.Value = true;
+                    RegistrationStatusProverProperty.Value = RegistrationStatus.Registered;
                 });
         }
     }
