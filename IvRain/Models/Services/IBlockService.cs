@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace IvRain.Models.Services;
 
-internal interface IBlockService
+public interface IBlockService
 {
     public ValueTask<List<Block>> GetBlocksAsync(string password, CancellationToken cancellationToken = default);
 

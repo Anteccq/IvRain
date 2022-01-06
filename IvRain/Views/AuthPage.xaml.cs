@@ -33,7 +33,7 @@ public sealed partial class AuthPage : Page
 {
     private Frame RootFrame => this.Parent as Frame;
 
-    public AuthPage(AuthPageViewModel viewModel)
+    public AuthPage(AuthPageViewModel viewModel, InitializeDataPageViewModel initializeDataPageViewModel)
     {
         this.InitializeComponent();
         this.DataContext = viewModel;
@@ -57,8 +57,12 @@ public sealed partial class AuthPage : Page
         this.Loaded += async (_, _) =>
         {
             if (await viewModel.IsFirstBoot())
-                RootFrame.Navigate(typeof(InitializeDataPage), null,
+                RootFrame.Navigate(typeof(InitializeDataPage), initializeDataPageViewModel,
                     new EntranceNavigationTransitionInfo());
+        };
+        DeleteButton.Click += async (_, _) =>
+        {
+            await viewModel.DeleteDataCommand.ExecuteAsync();
         };
     }
 }
