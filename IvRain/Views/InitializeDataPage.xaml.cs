@@ -37,7 +37,7 @@ namespace IvRain.Views
         public InitializeDataPage()
         {
             this.InitializeComponent();
-            WindowUtil.ResizeMainWindow(600, 230);
+            WindowUtil.ResizeMainWindow(600, 250);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -71,7 +71,41 @@ namespace IvRain.Views
             viewModel.RegistrationStatusProverProperty.Where(x => x == RegistrationStatus.Registered).Subscribe(_ =>
                 DispatcherQueue.TryEnqueue(() => RegistrationStatusBar.Fill = new SolidColorBrush(Colors.Green)));
 
+            var firstPasswordBoxPointerEnter = UiElementPointerEnteredAsObservable(FirstPasswordBox);
+            var firstPasswordBoxPointerExited = UiElementPointerExitedAsObservable(FirstPasswordBox);
+
+            firstPasswordBoxPointerEnter
+                .ObserveOn(SynchronizationContext.Current!)
+                .Do(_ => FirstPasswordBox.PasswordRevealMode = PasswordRevealMode.Visible)
+                .SkipUntil(firstPasswordBoxPointerExited)
+                .Repeat()
+                .SelectMany(_ => firstPasswordBoxPointerExited)
+                .Subscribe(_ => FirstPasswordBox.PasswordRevealMode = PasswordRevealMode.Hidden);
+
+            var secondPasswordBoxPointerEnter = UiElementPointerEnteredAsObservable(SecondPasswordBox);
+            var secondPasswordBoxPointerExited = UiElementPointerExitedAsObservable(SecondPasswordBox);
+
+            secondPasswordBoxPointerEnter
+                .ObserveOn(SynchronizationContext.Current!)
+                .Do(_ => SecondPasswordBox.PasswordRevealMode = PasswordRevealMode.Visible)
+                .SkipUntil(secondPasswordBoxPointerExited)
+                .Repeat()
+                .SelectMany(_ => secondPasswordBoxPointerExited)
+                .Subscribe(_ => SecondPasswordBox.PasswordRevealMode = PasswordRevealMode.Hidden);
+
             base.OnNavigatedTo(e);
         }
+
+        private static IObservable<EventPattern<PointerRoutedEventArgs>> UiElementPointerEnteredAsObservable(UIElement element)
+            => Observable.FromEventPattern<PointerEventHandler, PointerRoutedEventArgs>(
+                h => h.Invoke,
+                h => element.PointerEntered += h,
+                h => element.PointerEntered -= h);
+
+        private static IObservable<EventPattern<PointerRoutedEventArgs>> UiElementPointerExitedAsObservable(UIElement element)
+            => Observable.FromEventPattern<PointerEventHandler, PointerRoutedEventArgs>(
+                h => h.Invoke,
+                h => element.PointerExited += h,
+                h => element.PointerExited -= h);
     }
 }

@@ -27,16 +27,16 @@
                     <Setter Property="Margin" Value="{StaticResource ItemMargin}"/>
                 </Style>
             </StackPanel.Resources>
-            <TextBlock Text="Password must be at least 5 characters long."/>
-            <PasswordBox x:Name="FirstPasswordBox" Password="{Binding FirstPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <PasswordBox x:Name="SecondPasswordBox" Password="{Binding SecondPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
+            <TextBlock Text="Please enter password to unlock system."/>
+            <PasswordBox x:Name="FirstPasswordBox" PasswordRevealMode="Hidden"  Password="{Binding FirstPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <PasswordBox x:Name="SecondPasswordBox" PasswordRevealMode="Hidden" Password="{Binding SecondPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Password must be at least 5 characters long." FontSize="12"/>
 
             <Button HorizontalAlignment="Right" Padding="0"  x:Name="RegisterButton" Command="{Binding Register}" IsEnabled="{Binding RegistrationStatusProverProperty.Value, Converter={StaticResource StatusToBool}}">
                 <Grid Height="30">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="5"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Register" Margin="10,0" />
                     <Rectangle Grid.Column="1"  x:Name="RegistrationStatusBar" Fill="Red"/>
