@@ -56,6 +56,8 @@ public partial class App : Application
         var provider = CreateDefaultBuilder((config, services) =>
         {
             services.AddSingleton<AuthPageViewModel>();
+            services.AddSingleton<InitializeDataPageViewModel>();
+            services.AddSingleton<InitializeDataPage>();
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<PasswordManagePage>();
             services.AddSingleton<AuthPage>();

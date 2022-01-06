@@ -16,6 +16,7 @@ public class AuthPageViewModel
     public ReactiveProperty<string> InputPassword { get; } = new("");
     public ReactiveProperty<bool> IsAuthenticated { get; }
     public ReactiveCommand ChallengeAuthentication { get; }
+    public AsyncReactiveCommand DeleteDataCommand { get; }
     public object Block { get; private set; }
 
     public AuthPageViewModel(IStorage storage)
@@ -23,6 +24,8 @@ public class AuthPageViewModel
         IsAuthenticated = new ReactiveProperty<bool>(false);
         ChallengeAuthentication = new ReactiveCommand();
         ChallengeAuthentication.Subscribe(_ => IsAuthenticated.Value = true);
+        DeleteDataCommand = new AsyncReactiveCommand();
+        DeleteDataCommand.WithSubscribe(async _ =>await storage.DeleteAsync(CancellationToken.None));
         _storage = storage;
 ;    }
 

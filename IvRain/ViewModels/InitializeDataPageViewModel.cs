@@ -1,31 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using IvRain.Models;
+using IvRain.Models.Services;
 using Reactive.Bindings;
 
 namespace IvRain.ViewModels
 {
-    public class InitializeDataPageViewModel
+    public class InitializeDataPageViewModel : INotifyPropertyChanged
     {
-        public ReactiveProperty<bool> IsRegistrable { get; } = new(false);
         public ReactiveProperty<string> FirstPassword { get; }
         public ReactiveProperty<string> SecondPassword { get; }
-        public const string InformationText = "Must be at least 5 characters long.";
 
-        public InitializeDataPageViewModel()
+        public ReactiveProperty<RegistrationStatus> RegistrationStatusProverProperty { get; } =
+            new(RegistrationStatus.UnRegistrable);
+        private ReactiveProperty<bool> IsRegistrable { get; }
+        public AsyncReactiveCommand Register { get; }
+
+        public InitializeDataPageViewModel(IBlockService blockService)
         {
             FirstPassword = new ReactiveProperty<string>("");
             SecondPassword = new ReactiveProperty<string>("");
             FirstPassword
-                .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length < 5 && x == SecondPassword.Value)
-                .Subscribe(_ => IsRegistrable.Value = true);
+                .Subscribe(x =>
+                    RegistrationStatusProverProperty.Value =
+                        !string.IsNullOrWhiteSpace(x) && x.Length > 5 && x == SecondPassword.Value
+                            ? RegistrationStatus.Registrable
+                            : RegistrationStatus.UnRegistrable);
 
             SecondPassword
-                .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length < 5 && x == FirstPassword.Value)
-                .Subscribe(_ => IsRegistrable.Value = true);
+                .Subscribe(x =>
+                    RegistrationStatusProverProperty.Value =
+                        !string.IsNullOrWhiteSpace(x) && x.Length > 5 && x == FirstPassword.Value
+                            ? RegistrationStatus.Registrable
+                            : RegistrationStatus.UnRegistrable);
+
+            IsRegistrable = new ReactiveProperty<bool>();
+            
+            RegistrationStatusProverProperty.Subscribe(x => IsRegistrable.Value = x == RegistrationStatus.Registrable);
+            
+            Register = new AsyncReactiveCommand(IsRegistrable);
+            Register
+                .WithSubscribe(async _ =>
+                {
+                    await blockService.SetBlocksAsync(FirstPassword.Value, new List<Block>(), CancellationToken.None);
+                    await Task.Delay(500);
+                    RegistrationStatusProverProperty.Value = RegistrationStatus.Registered;
+                });
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

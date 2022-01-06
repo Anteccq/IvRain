@@ -6,18 +6,43 @@
     xmlns:vm="using:IvRain.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:IvRain.Views.Converter"
+    xmlns:sys="using:System"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Page.DataContext>
-        <vm:InitializeDataPageViewModel/>
-    </Page.DataContext>
+    <Page.Resources>
+        <converter:InverseValueConverter x:Key="Inverse"/>
+        <converter:RegistrationStatusToBoolConverter x:Key="StatusToBool"/>
+    </Page.Resources>
 
     <Grid>
-        <StackPanel>
-            <PasswordBox x:Name="FirstPasswordBox" Password="{Binding FirstPassword.Value}"/>
-            <PasswordBox x:Name="SecondPasswordBox" Password="{Binding SecondPassword.Value}"/>
-            <Button x:Name="RegisterButton" Content="Register" IsEnabled="{Binding IsRegistrable.Value}"/>
+        <StackPanel Orientation="Vertical"  Margin="50, 0">
+            <StackPanel.Resources>
+                <!--なぜ明示的な型指定が必要なのか(Controlではだめなのか)我々は以下略-->
+                <Thickness x:Key="ItemMargin">0,10</Thickness>
+                <Style TargetType="PasswordBox">
+                    <Setter Property="Margin" Value="{StaticResource ItemMargin}"/>
+                </Style>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="{StaticResource ItemMargin}"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Text="Please enter password to unlock system."/>
+            <PasswordBox x:Name="FirstPasswordBox" PasswordRevealMode="Hidden"  Password="{Binding FirstPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <PasswordBox x:Name="SecondPasswordBox" PasswordRevealMode="Hidden" Password="{Binding SecondPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Password must be at least 5 characters long." FontSize="12"/>
+
+            <Button HorizontalAlignment="Right" Padding="0"  x:Name="RegisterButton" Command="{Binding Register}" IsEnabled="{Binding RegistrationStatusProverProperty.Value, Converter={StaticResource StatusToBool}}">
+                <Grid Height="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Register" Margin="10,0" />
+                    <Rectangle Grid.Column="1"  x:Name="RegistrationStatusBar" Fill="Red"/>
+                </Grid>
+            </Button>
+
         </StackPanel>
     </Grid>
 </Page>
