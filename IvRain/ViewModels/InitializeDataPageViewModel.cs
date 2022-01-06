@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +13,7 @@ using Reactive.Bindings;
 
 namespace IvRain.ViewModels
 {
-    public class InitializeDataPageViewModel
+    public class InitializeDataPageViewModel : INotifyPropertyChanged
     {
         public ReactiveProperty<string> FirstPassword { get; }
         public ReactiveProperty<string> SecondPassword { get; }
@@ -52,5 +54,7 @@ namespace IvRain.ViewModels
                     RegistrationStatusProverProperty.Value = RegistrationStatus.Registered;
                 });
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
