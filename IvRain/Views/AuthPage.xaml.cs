@@ -60,9 +60,5 @@ public sealed partial class AuthPage : Page
                 RootFrame.Navigate(typeof(InitializeDataPage), initializeDataPageViewModel,
                     new EntranceNavigationTransitionInfo());
         };
-        DeleteButton.Click += async (_, _) =>
-        {
-            await viewModel.DeleteDataCommand.ExecuteAsync();
-        };
     }
 }

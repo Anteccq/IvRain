@@ -12,10 +12,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
         <PasswordBox x:Name="PasswordBox" Height="50" FontSize="25" VerticalAlignment="Center"/>
         <Rectangle Grid.Column="1"  x:Name="AuthenticationStatusBar"/>
-        <Button Grid.Column="2" x:Name="DeleteButton"/>
     </Grid>
 </Page>
