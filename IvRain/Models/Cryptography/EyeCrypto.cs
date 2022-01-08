@@ -16,6 +16,7 @@ public class EyeCrypto : ICrypto
         using var deriveBytes = new Rfc2898DeriveBytes(password, message.Salt);
         using var decAlg = Aes.Create();
         decAlg.Key = deriveBytes.GetBytes(KeySize);
+        decAlg.Padding = PaddingMode.PKCS7;
         decAlg.IV = message.Iv;
         await using var ms = new MemoryStream();
         await using var cs = new CryptoStream(ms, decAlg.CreateDecryptor(), CryptoStreamMode.Write);
@@ -31,6 +32,7 @@ public class EyeCrypto : ICrypto
         var salt = deriveBytes.Salt;
         using var encAlg = Aes.Create();
         encAlg.Key = deriveBytes.GetBytes(KeySize);
+        encAlg.Padding = PaddingMode.PKCS7;
         await using var ms = new MemoryStream();
         await using var cs = new CryptoStream(ms, encAlg.CreateEncryptor(), CryptoStreamMode.Write);
         await cs.WriteAsync(rawData, cancellationToken);

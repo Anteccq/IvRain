@@ -37,10 +37,10 @@ public sealed partial class AuthPage : Page
     {
         this.InitializeComponent();
         this.DataContext = viewModel;
-        this.PasswordBox.KeyDown += (a, e) =>
+        this.PasswordBox.KeyDown += async (a, e) =>
         {
             if (e.Key != VirtualKey.Enter) return;
-            viewModel.ChallengeAuthentication.Execute();
+            await viewModel.ChallengeAuthenticationAsync();
         };
         AuthenticationStatusBar.Fill = new SolidColorBrush(Colors.DarkRed);
         viewModel.IsAuthenticated
@@ -52,17 +52,22 @@ public sealed partial class AuthPage : Page
             .Delay(TimeSpan.FromMilliseconds(1000))
             .ObserveOn(SynchronizationContext.Current!)
             .Subscribe(_ =>
-                RootFrame.Navigate(typeof(PasswordManagePage), null, new DrillInNavigationTransitionInfo()));
+                RootFrame.Navigate(typeof(PasswordManagePage), viewModel.Block, new DrillInNavigationTransitionInfo()));
+
+        viewModel.ErrorMessage
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Subscribe(msg =>
+            {
+                FailedInfoBar.Message = msg;
+                FailedInfoBar.IsOpen = true;
+                WindowUtil.ResizeMainWindow(600, 150);
+            });
 
         this.Loaded += async (_, _) =>
         {
             if (await viewModel.IsFirstBoot())
                 RootFrame.Navigate(typeof(InitializeDataPage), initializeDataPageViewModel,
                     new EntranceNavigationTransitionInfo());
-        };
-        DeleteButton.Click += async (_, _) =>
-        {
-            await viewModel.DeleteDataCommand.ExecuteAsync();
         };
     }
 }
