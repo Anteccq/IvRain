@@ -52,7 +52,7 @@ public sealed partial class AuthPage : Page
             .Delay(TimeSpan.FromMilliseconds(1000))
             .ObserveOn(SynchronizationContext.Current!)
             .Subscribe(_ =>
-                RootFrame.Navigate(typeof(PasswordManagePage), null, new DrillInNavigationTransitionInfo()));
+                RootFrame.Navigate(typeof(PasswordManagePage), viewModel.Block, new DrillInNavigationTransitionInfo()));
 
         viewModel.ErrorMessage
             .Where(x => !string.IsNullOrWhiteSpace(x))
