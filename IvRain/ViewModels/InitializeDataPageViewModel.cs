@@ -49,7 +49,7 @@ namespace IvRain.ViewModels
             Register
                 .WithSubscribe(async _ =>
                 {
-                    await blockService.SetBlocksAsync(FirstPassword.Value, Enumerable.Range(0,1000).Select(x => new Block{Password = "abc", SiteName = "Sitete"}).ToList(), CancellationToken.None);
+                    await blockService.SetBlocksAsync(FirstPassword.Value, new List<Block>(), CancellationToken.None);
                     await Task.Delay(500);
                     RegistrationStatusProverProperty.Value = RegistrationStatus.Registered;
                 });
