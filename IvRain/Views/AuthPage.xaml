@@ -7,13 +7,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid Margin="10, 5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="10"/>
-        </Grid.ColumnDefinitions>
-        <PasswordBox x:Name="PasswordBox" Height="50" FontSize="25" VerticalAlignment="Center"/>
-        <Rectangle Grid.Column="1"  x:Name="AuthenticationStatusBar"/>
-    </Grid>
+    
+    <StackPanel>
+        <InfoBar x:Name="FailedInfoBar" Severity="Error" Title="Login Failed" Message="{Binding ErrorMessage.Value}"/>
+        <Grid Margin="10, 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <PasswordBox x:Name="PasswordBox" Height="50" FontSize="25" VerticalAlignment="Center" Password="{Binding InputPassword.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Rectangle Grid.Column="1"  x:Name="AuthenticationStatusBar"/>
+        </Grid>
+    </StackPanel>
 </Page>
