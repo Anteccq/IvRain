@@ -21,19 +21,29 @@ namespace IvRain.Views.Controls
 {
     public sealed partial class PasswordViewBox : UserControl
     {
-        private string _password;
-        private string _invisiblePassword;
+        private string _invisiblePassword = null;
         private bool _passwordVisible = false;
+
+        public new double FontSize
+        {
+            get => PasswordText.FontSize;
+            set => PasswordText.FontSize = value;
+        }
 
         public string Password
         {
-            get => _password;
+            get => RealPasswordText;
             set
             {
-                _password = value;
-                _invisiblePassword = _password.Select(x => '*').Aggregate(new StringBuilder(), (sb, x) => sb.Append(x)).ToString();
+                RealPasswordText = value;
+                var isFirstRender = _invisiblePassword == null;
+                _invisiblePassword = RealPasswordText.Select(x => '*').Aggregate(new StringBuilder(), (sb, x) => sb.Append(x)).ToString();
+                if(isFirstRender) this.PasswordText.Text = _invisiblePassword;
             }
         }
+
+        public string RealPasswordText { get; private set; }
+
         public PasswordViewBox()
         {
             this.InitializeComponent();
@@ -48,7 +58,7 @@ namespace IvRain.Views.Controls
             {
                 _passwordVisible = PasswordShowToggle.IsChecked == true;
                 PasswordText.Text = _passwordVisible
-                    ? _password
+                    ? RealPasswordText
                     : _invisiblePassword;
             };
         }

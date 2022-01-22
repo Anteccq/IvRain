@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using IvRain.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -20,9 +21,17 @@ namespace IvRain.Views.Controls
 {
     public sealed partial class PasswordView : UserControl
     {
+        public string Password => PasswordViewBox.RealPasswordText;
+        public string SiteName => TextBlock.Text;
         public PasswordView()
         {
             this.InitializeComponent();
+
+            Loaded += (_, _) =>
+            {
+                PasswordViewBox.Password = ((Block)DataContext).Password;
+                TextBlock.Text = ((Block)DataContext).SiteName;
+            };
         }
     }
 }

@@ -26,6 +26,6 @@ public sealed partial class PasswordManagePage : Page
     public PasswordManagePage()
     {
         this.InitializeComponent();
-        WindowUtil.ResizeMainWindow(600, 800);
+        WindowUtil.ResizeMainWindow(1100, 700);
     }
 }
