@@ -10,9 +10,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using IvRain.Models;
+using Clipboard = System.Windows.Clipboard;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -29,9 +31,17 @@ namespace IvRain.Views.Controls
 
             Loaded += (_, _) =>
             {
-                PasswordViewBox.Password = ((Block)DataContext).Password;
-                TextBlock.Text = ((Block)DataContext).SiteName;
+                PasswordViewBox.Password = ((Block)DataContext)?.Password ?? "";
+                TextBlock.Text = ((Block)DataContext)?.SiteName ?? "";
             };
+
+            DataContextChanged += (_, _) =>
+            {
+                PasswordViewBox.Password = ((Block)DataContext)?.Password ?? "";
+                TextBlock.Text = ((Block)DataContext)?.SiteName ?? "";
+            };
+
+            CopyButton.Click += (_, _) => Clipboard.SetText(Password);
         }
     }
 }

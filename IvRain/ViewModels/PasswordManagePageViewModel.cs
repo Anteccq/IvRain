@@ -13,7 +13,7 @@ namespace IvRain.ViewModels
 {
     public class PasswordManagePageViewModel
     {
-        private ObservableCollection<Block> Blocks { get; }
+        public ObservableCollection<Block> Blocks { get; }
         private readonly string _password;
         private readonly IBlockService _blockService;
 

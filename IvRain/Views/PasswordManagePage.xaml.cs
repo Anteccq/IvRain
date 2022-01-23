@@ -12,6 +12,10 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using IvRain.Models;
+using IvRain.Models.Parameter;
+using IvRain.Models.Services;
+using IvRain.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,5 +31,20 @@ public sealed partial class PasswordManagePage : Page
     {
         this.InitializeComponent();
         WindowUtil.ResizeMainWindow(1100, 700);
+    }
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        if (e.Parameter is not PasswordManagePageParameter(var service, var blocks, var password))
+            throw new InvalidOperationException("Need InitializeDataPageViewModel.");
+        this.DataContext = new PasswordManagePageViewModel(service, new List<Block>
+        {
+            new Block
+            {
+               SiteName = "とっとこはむたろす",
+               Password = "Tottokodokodokohamutarosu"
+            }
+        }, password);
+        base.OnNavigatedTo(e);
     }
 }

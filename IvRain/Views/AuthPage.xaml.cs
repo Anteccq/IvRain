@@ -17,6 +17,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI;
+using IvRain.Models.Parameter;
+using IvRain.Models.Services;
 using IvRain.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -33,7 +35,7 @@ public sealed partial class AuthPage : Page
 {
     private Frame RootFrame => this.Parent as Frame;
 
-    public AuthPage(AuthPageViewModel viewModel, InitializeDataPageViewModel initializeDataPageViewModel)
+    public AuthPage(AuthPageViewModel viewModel, InitializeDataPageViewModel initializeDataPageViewModel, IBlockService service)
     {
         this.InitializeComponent();
         this.DataContext = viewModel;
@@ -52,7 +54,7 @@ public sealed partial class AuthPage : Page
             .Delay(TimeSpan.FromMilliseconds(1000))
             .ObserveOn(SynchronizationContext.Current!)
             .Subscribe(_ =>
-                RootFrame.Navigate(typeof(PasswordManagePage), viewModel.Block, new DrillInNavigationTransitionInfo()));
+                RootFrame.Navigate(typeof(PasswordManagePage), new PasswordManagePageParameter(service, viewModel.Block, viewModel.InputPassword.Value), new DrillInNavigationTransitionInfo()));
 
         viewModel.ErrorMessage
             .Where(x => !string.IsNullOrWhiteSpace(x))

@@ -36,7 +36,7 @@ namespace IvRain.Views.Controls
             set
             {
                 RealPasswordText = value;
-                var isFirstRender = _invisiblePassword == null;
+                var isFirstRender = string.IsNullOrEmpty(_invisiblePassword);
                 _invisiblePassword = RealPasswordText.Select(x => '*').Aggregate(new StringBuilder(), (sb, x) => sb.Append(x)).ToString();
                 if(isFirstRender) this.PasswordText.Text = _invisiblePassword;
             }
