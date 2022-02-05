@@ -48,6 +48,22 @@ public sealed partial class PasswordManagePage : Page
         var viewModel = new PasswordManagePageViewModel(service, blocks, password);
         this.DataContext = viewModel;
         PasswordView.PasswordChanged += () => viewModel.StoreBlock?.Execute();
+        PasswordView.DeleteButtonClicked += () =>
+        {
+            var currentSelectedIndex = SiteListView.SelectedIndex;
+            viewModel.Blocks.RemoveAt(currentSelectedIndex);
+            SiteListView.SelectedIndex = 0;
+            viewModel.StoreBlock?.Execute();
+        };
+        ListViewAddButton.Click += (_, _) =>
+        {
+            viewModel.Blocks.Add(
+                new Block
+                {
+                    SiteName = "New Site",
+                    Password = ""
+                });
+        };
         base.OnNavigatedTo(e);
     }
 }

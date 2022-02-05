@@ -27,6 +27,7 @@ namespace IvRain.Views.Controls
         public string Password => PasswordViewBox.RealPasswordText;
         public string SiteName => TextBlock.Text;
         public event Action PasswordChanged;
+        public event Action DeleteButtonClicked;
         public PasswordView()
         {
             this.InitializeComponent();
@@ -34,13 +35,13 @@ namespace IvRain.Views.Controls
             Loaded += (_, _) =>
             {
                 UpdatePasswordTexts( ((Block)DataContext)?.Password ?? "");
-                TextBlock.Text = ((Block)DataContext)?.SiteName ?? "";
+                UpdateSiteNameTexts(((Block)DataContext)?.SiteName ?? "");
             };
 
             DataContextChanged += (_, _) =>
             {
                 UpdatePasswordTexts( ((Block)DataContext)?.Password ?? "");
-                TextBlock.Text = ((Block)DataContext)?.SiteName ?? "";
+                UpdateSiteNameTexts(((Block)DataContext)?.SiteName ?? "");
             };
 
             CopyButton.Click += (_, _) => Clipboard.SetText(Password);
@@ -48,15 +49,25 @@ namespace IvRain.Views.Controls
             SubmitButton.Click += (_, _) =>
             {
                 ((Block)DataContext).Password = PasswordEditText.Text;
+                ((Block)DataContext).SiteName = SiteNameEditBox.Text;
                 UpdatePasswordTexts(PasswordEditText.Text);
+                UpdateSiteNameTexts(SiteNameEditBox.Text);
                 PasswordChanged?.Invoke();
             };
+
+            DeleteButton.Click += (_, _) => DeleteButtonClicked?.Invoke();
         }
 
-        private void UpdatePasswordTexts(string text)
+        private void UpdatePasswordTexts(string password)
         {
-            PasswordEditText.Text = text;
-            PasswordViewBox.Password = text;
+            PasswordEditText.Text = password;
+            PasswordViewBox.Password = password;
+        }
+
+        private void UpdateSiteNameTexts(string siteName)
+        {
+            SiteNameEditBox.Text = siteName;
+            TextBlock.Text = siteName;
         }
     }
 }
