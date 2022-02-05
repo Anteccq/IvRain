@@ -47,7 +47,11 @@ public sealed partial class PasswordManagePage : Page
             throw new InvalidOperationException("Need InitializeDataPageViewModel.");
         var viewModel = new PasswordManagePageViewModel(service, blocks, password);
         this.DataContext = viewModel;
-        PasswordView.PasswordChanged += () => viewModel.StoreBlock?.Execute();
+        PasswordView.PasswordChanged += () =>
+        {
+            viewModel.StoreBlock?.Execute();
+            viewModel.FilterBlocks?.Execute();
+        };
         PasswordView.DeleteButtonClicked += () =>
         {
             var currentSelectedIndex = SiteListView.SelectedIndex;
