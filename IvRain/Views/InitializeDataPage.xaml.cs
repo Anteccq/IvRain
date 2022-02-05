@@ -13,6 +13,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using IvRain.Models;
+using IvRain.Models.Parameter;
 using IvRain.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -42,8 +43,9 @@ namespace IvRain.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is not InitializeDataPageViewModel viewModel)
+            if (e.Parameter is not InitializeDataPageParameter parameter)
                 throw new InvalidOperationException("Need InitializeDataPageViewModel.");
+            var (service, viewModel) = parameter;
             this.DataContext = viewModel;
             viewModel.RegistrationStatusProverProperty
                 .FirstAsync(x => x == RegistrationStatus.Registered)
@@ -52,7 +54,7 @@ namespace IvRain.Views
                     await Task.Delay(1000);
                     DispatcherQueue.TryEnqueue(() =>
                         (this.Parent as Frame)!.Navigate(typeof(PasswordManagePage),
-                            null, new DrillInNavigationTransitionInfo()));
+                            new PasswordManagePageParameter(service, new List<Block>(), viewModel.FirstPassword.Value), new DrillInNavigationTransitionInfo()));
                 });
 
             Observable.FromEventPattern<KeyEventHandler, KeyRoutedEventArgs>(

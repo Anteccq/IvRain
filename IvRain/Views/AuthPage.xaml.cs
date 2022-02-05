@@ -68,7 +68,7 @@ public sealed partial class AuthPage : Page
         this.Loaded += async (_, _) =>
         {
             if (await viewModel.IsFirstBoot())
-                RootFrame.Navigate(typeof(InitializeDataPage), initializeDataPageViewModel,
+                RootFrame.Navigate(typeof(InitializeDataPage), new InitializeDataPageParameter(service, initializeDataPageViewModel) ,
                     new EntranceNavigationTransitionInfo());
         };
     }
