@@ -32,6 +32,8 @@
     <None Remove="Assets\SmallTile.scale-200.png" />
     <None Remove="Assets\SmallTile.scale-400.png" />
     <None Remove="Views\AuthPage.xaml" />
+    <None Remove="Views\Controls\PasswordView.xaml" />
+    <None Remove="Views\Controls\PasswordViewBox.xaml" />
     <None Remove="Views\InitializeDataPage.xaml" />
     <None Remove="Views\MainWindow.xaml" />
     <None Remove="Views\PasswordManagePage.xaml" />
@@ -54,6 +56,11 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\Controls\PasswordViewBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\InitializeDataPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -70,6 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Controls\PasswordView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
