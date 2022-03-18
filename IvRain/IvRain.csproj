@@ -4,28 +4,37 @@
     <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <RootNamespace>IvRain</RootNamespace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;</Platforms>
     <RuntimeIdentifiers>win10-x86;win10-x64;</RuntimeIdentifiers>
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\Iv.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Remove="Assets\Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Remove="Assets\Logo.altform-lightunplated_targetsize-48.png" />
+    <Content Remove="Assets\Logo.altform-unplated_targetsize-16.png" />
+    <Content Remove="Assets\Logo.altform-unplated_targetsize-256.png" />
+    <Content Remove="Assets\Logo.altform-unplated_targetsize-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\Logo.scale-100.png" />
+    <None Remove="Assets\Logo.scale-200.png" />
+    <None Remove="Assets\Logo.scale-400.png" />
+    <None Remove="Assets\Logo.targetsize-16.png" />
+    <None Remove="Assets\Logo.targetsize-256.png" />
+    <None Remove="Assets\Logo.targetsize-256_altform-unplated.png" />
+    <None Remove="Assets\Logo.targetsize-48.png" />
+    <None Remove="Assets\SmallTile.scale-100.png" />
+    <None Remove="Assets\SmallTile.scale-200.png" />
+    <None Remove="Assets\SmallTile.scale-400.png" />
     <None Remove="Views\AuthPage.xaml" />
     <None Remove="Views\InitializeDataPage.xaml" />
     <None Remove="Views\MainWindow.xaml" />
     <None Remove="Views\PasswordManagePage.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
   <ItemGroup>

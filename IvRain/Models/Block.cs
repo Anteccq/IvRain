@@ -6,7 +6,8 @@ namespace IvRain.Models;
 public class Block
 {
     [Key(0)]
-    public string SiteName { get; set; }
+    public string SiteName { get; set; } = "";
     [Key(1)]
-    public string Password { get; set; }
+
+    public string Password { get; set; } = "";
 }
