@@ -49,14 +49,23 @@ public sealed partial class PasswordManagePage : Page
         this.DataContext = viewModel;
         PasswordView.PasswordChanged += () =>
         {
+            var currentItem = SiteListView.SelectedItem;
             viewModel.StoreBlock?.Execute();
             viewModel.FilterBlocks?.Execute();
+            SiteListView.SelectedIndex = viewModel.FilteredBlockList.IndexOf((Block)currentItem);
         };
         PasswordView.DeleteButtonClicked += () =>
         {
             var currentSelectedIndex = SiteListView.SelectedIndex;
             viewModel.Blocks.RemoveAt(currentSelectedIndex);
-            SiteListView.SelectedIndex = 0;
+            if (SiteListView.Items.Count == 0)
+            {
+                SiteListView.SelectedIndex = -1;
+                PasswordView.Visibility = Visibility.Collapsed;
+                SiteListView.SelectionChanged += ToggleSwitchToVisible;
+            }
+            else
+                SiteListView.SelectedIndex = 0;
             viewModel.StoreBlock?.Execute();
         };
         ListViewAddButton.Click += (_, _) =>
